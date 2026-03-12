@@ -1,0 +1,4 @@
+.env
+sentinel.log
+__pycache__/
+*.pyc
