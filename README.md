@@ -42,6 +42,30 @@ Instead of calling AI providers directly, route your requests through Sentinel:
 - OpenAI: `http://localhost:8080/openai/v1/chat/completions`
 - Groq: `http://localhost:8080/groq/v1/chat/completions`
 
+  ## Use with Cursor and Claude Code
+
+**Claude Code** — set this environment variable once:
+
+**Mac/Linux** — add to ~/.zshrc or ~/.bashrc:
+```bash
+export ANTHROPIC_BASE_URL=http://localhost:8080/anthropic
+```
+
+**Windows** — add to System Environment Variables:
+```
+ANTHROPIC_BASE_URL=http://localhost:8080/anthropic
+```
+
+Restart Claude Code after setting. All requests automatically pass through Sentinel.
+
+**Cursor BYOK (Bring Your Own Key):**
+```bash
+export ANTHROPIC_BASE_URL=http://localhost:8080/anthropic
+export OPENAI_BASE_URL=http://localhost:8080/openai
+```
+
+> ⚠️ **Cursor Auto Mode** routes through Cursor's own servers and is not currently intercepted. Support planned for future release.
+
 ## What it catches
 
 - AWS Keys (`AKIA...`)
@@ -53,6 +77,17 @@ Instead of calling AI providers directly, route your requests through Sentinel:
 ```bash
 cat sentinel.log
 ```
+
+## Roadmap
+
+- [x] DLP engine — catches and redacts secrets
+- [x] Permanent audit log
+- [x] Multi-provider support (Anthropic, OpenAI, Groq)
+- [x] Works with Claude Code and Cursor BYOK
+- [ ] Automatic interception for Cursor Auto Mode
+- [ ] Live dashboard — see what your AI tools transmit in real time
+- [ ] One-command install script
+- [ ] Team mode — shared audit log for small teams
 
 ## Status
 
