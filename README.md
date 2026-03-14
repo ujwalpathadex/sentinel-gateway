@@ -58,6 +58,8 @@ cat sentinel.log
 
 Early stage. Working and tested. Built to solve a real problem — most developers have zero visibility into what their AI tools actually transmit.
 
+Currently supports manual API routing—point your API calls to localhost:8080 instead of calling providers directly. Automatic interception for Cursor and Claude Code without configuration changes is on the roadmap.
+
 ## License
 
 Copyright (c) 2026 Ujwal Pathadex. All rights reserved. Source visible for evaluation only.
