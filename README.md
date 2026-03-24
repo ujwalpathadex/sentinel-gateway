@@ -11,19 +11,21 @@ Sentinel sits between your AI tools (Cursor, Claude Code, any AI tool) and their
 - Runs entirely locally — nothing goes to any cloud
 
 ## Install
-# Install
+# 1. Clone
 git clone https://github.com/ujwalpathadex/sentinel-gateway
 cd sentinel-gateway
+
+# 2. Install dependencies
 pip install -r requirements.txt
 
-# Add your API keys
+# 3. Add your API keys
 cp .env.example .env
-# Edit .env with your keys
+# Open .env and add your keys
 
-# Run
+# 4. Run Sentinel
 python gateway.py
 
-# Connect Claude Code (one time)
+# 5. Connect Claude Code (one-time setup)
 export ANTHROPIC_BASE_URL=http://localhost:8080/anthropic
 
 ## Setup
