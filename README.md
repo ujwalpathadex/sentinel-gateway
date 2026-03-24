@@ -11,11 +11,20 @@ Sentinel sits between your AI tools (Cursor, Claude Code, any AI tool) and their
 - Runs entirely locally — nothing goes to any cloud
 
 ## Install
-```bash
+# Install
 git clone https://github.com/ujwalpathadex/sentinel-gateway
 cd sentinel-gateway
-pip install fastapi uvicorn httpx python-dotenv
-```
+pip install -r requirements.txt
+
+# Add your API keys
+cp .env.example .env
+# Edit .env with your keys
+
+# Run
+python gateway.py
+
+# Connect Claude Code (one time)
+export ANTHROPIC_BASE_URL=http://localhost:8080/anthropic
 
 ## Setup
 
@@ -83,6 +92,7 @@ cat sentinel.log
 - [x] Permanent audit log
 - [x] Multi-provider support (Anthropic, OpenAI, Groq)
 - [x] Works with Claude Code and Cursor BYOK
+- [ ]  One command install: pip install sentinel-gateway
 - [ ] Automatic interception for Cursor Auto Mode
 - [ ] Live dashboard — see what your AI tools transmit in real time
 - [ ] One-command install script
