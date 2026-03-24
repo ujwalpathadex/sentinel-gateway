@@ -1,7 +1,6 @@
 # Sentinel Gateway
 
-> Your AI tools are sending things you haven't seen. Sentinel watches every request before it leaves your machine.
-
+>You can see what your agents cost. You can't see what they're sending. Sentinel shows you both — and catches your secrets before they leave your machine.
 ## What it does
 
 Sentinel sits between your AI tools (Cursor, Claude Code, any AI tool) and their providers (Anthropic, OpenAI, Groq). Every request passes through it before leaving your machine.
@@ -97,4 +96,4 @@ Currently supports manual API routing—point your API calls to localhost:8080 i
 
 ## License
 
-Copyright (c) 2026 Ujwal Pathadex. All rights reserved. Source visible for evaluation only.
+Licensed under FSL-1.1-MIT — free to use personally and commercially. Converts to MIT in 2 years. See LICENSE.md
