@@ -1,110 +1,157 @@
 # Sentinel Gateway
 
->You can see what your agents cost. You can't see what they're sending. Sentinel shows you both — and catches your secrets before they leave your machine.
-## What it does
+> You can see what your agents cost. You can't see what they're sending. Sentinel shows you both — and catches your secrets before they leave your machine.
 
-Sentinel sits between your AI tools (Cursor, Claude Code, any AI tool) and their providers (Anthropic, OpenAI, Groq). Every request passes through it before leaving your machine.
+---
 
-- Catches and redacts AWS keys, Stripe keys, SSNs, and secrets before transmission
-- Logs every request permanently to `sentinel.log.`
-- Works across ALL AI tools simultaneously — one install, complete coverage
-- Runs entirely locally — nothing goes to any cloud
+## Why This Exists
+
+Every time you run Claude Code, Cursor, or Aider, your agent is sending requests to an AI provider. Those requests contain your code, your context, and sometimes your credentials.
+
+**You have no idea what's actually in them.**
+
+- Your AWS keys, database passwords, and API tokens can silently end up in prompts
+- A single runaway agent can burn $50 in minutes — you find out when the bill arrives
+- 29 million secrets were leaked via AI tools in 2025. Most developers never knew.
+
+Other monitoring tools fix this by routing your traffic through *their* servers.  
+**That means your prompts, your code, and your secrets travel through a third party.**
+
+Sentinel intercepts at the source — on your machine, before anything leaves.  
+Nothing routes through external servers. Ever.
+
+---
+
+## Who This Is For
+
+- **Claude Code / Aider users** — you're sending raw context to the API. Do you know what's in it?
+- **Cursor BYOK users** — one surprise bill is enough. Know exactly where every dollar goes.
+- **Multi-agent pipeline builders** — when 6 agents run in parallel, which one caused the spike?
+- **Anyone who's accidentally committed an API key** — Sentinel catches it before the AI ever sees it.
+
+---
+
+## What's Built Today ✅
+
+| Feature | Status |
+|---|---|
+| Secret & credential detection before transmission | ✅ Live |
+| Catches AWS keys, Stripe keys, SSNs, passwords in prompts | ✅ Live |
+| Permanent audit log of every request/response | ✅ Live |
+| Multi-provider support — Anthropic, OpenAI, Groq | ✅ Live |
+| Works with Claude Code, Cline, Cursor BYOK, Aider | ✅ Live |
+| Runs entirely locally — nothing sent to any cloud | ✅ Live |
+
+---
+
+## What's Coming 🔜
+
+| Feature | ETA |
+|---|---|
+| `pip install sentinel-gateway` — one command setup | This week |
+| Live dashboard — real-time spend per agent per session | Next |
+| Auto-pause — hard stop when spend hits your threshold | Next |
+| Anomaly detection — get notified when an agent behaves unusually | Roadmap |
+| Agent movement tracking — see every tool call, every decision | Roadmap |
+| Automatic interception for Cursor Auto Mode | Roadmap |
+| Team mode — shared audit log for small teams | Roadmap |
+
+---
 
 ## Install
-# 1. Clone
+
+**5 steps. Under 2 minutes.**
+
+**1. Clone the repo**
+```bash
 git clone https://github.com/ujwalpathadex/sentinel-gateway
 cd sentinel-gateway
+```
 
-# 2. Install dependencies
+**2. Install dependencies**
+```bash
 pip install -r requirements.txt
+```
 
-# 3. Add your API keys
+**3. Add your API keys**
+```bash
 cp .env.example .env
-# Open .env and add your keys
-
-# 4. Run Sentinel
-python gateway.py
-
-# 5. Connect Claude Code (one-time setup)
-export ANTHROPIC_BASE_URL=http://localhost:8080/anthropic
-
-## Setup
-
-Create a `.env` file in the root folder:
 ```
-ANTHROPIC_API_KEY=your_key_here
-OPENAI_API_KEY=your_key_here
-GROQ_API_KEY=your_key_here
-```
+Open `.env` and replace the placeholder values with your actual keys.
 
-## Run
+**4. Run Sentinel**
 ```bash
 python gateway.py
 ```
+Gateway starts on `http://localhost:8080`
 
-Gateway runs on `http://localhost:8080`
+**5. Connect your tools — one line each**
 
-## How it works
-
-Instead of calling AI providers directly, route your requests through Sentinel:
-
-- Anthropic: `http://localhost:8080/anthropic/v1/messages`
-- OpenAI: `http://localhost:8080/openai/v1/chat/completions`
-- Groq: `http://localhost:8080/groq/v1/chat/completions`
-
-  ## Use with Cursor and Claude Code
-
-**Claude Code** — set this environment variable once:
-
-**Mac/Linux** — add to ~/.zshrc or ~/.bashrc:
+**Claude Code** (Mac/Linux — add to `~/.zshrc` or `~/.bashrc`):
 ```bash
 export ANTHROPIC_BASE_URL=http://localhost:8080/anthropic
 ```
 
-**Windows** — add to System Environment Variables:
+**Claude Code** (Windows — add to System Environment Variables):
 ```
 ANTHROPIC_BASE_URL=http://localhost:8080/anthropic
 ```
 
-Restart Claude Code after setting. All requests automatically pass through Sentinel.
-
-**Cursor BYOK (Bring Your Own Key):**
+**Cursor BYOK / Cline / Aider:**
 ```bash
 export ANTHROPIC_BASE_URL=http://localhost:8080/anthropic
 export OPENAI_BASE_URL=http://localhost:8080/openai
 ```
 
-> ⚠️ **Cursor Auto Mode** routes through Cursor's own servers and is not currently intercepted. Support planned for future release.
+Restart your tool after setting. All requests automatically pass through Sentinel.
 
-## What it catches
+> ⚠️ **Cursor Auto Mode** routes through Cursor's own servers and is not currently interceptable. BYOK mode only. Auto Mode support is on the roadmap.
 
-- AWS Keys (`AKIA...`)
-- Stripe live keys (`sk_live_...`)
-- Social Security Numbers
-- Passwords, secrets, API keys in code
+---
 
-## Check your audit log
+## What It Catches
+
+Sentinel's DLP engine intercepts these before they reach any AI provider:
+
+| Secret Type | Pattern |
+|---|---|
+| AWS Access Keys | `AKIA...` |
+| Stripe Live Keys | `sk_live_...` |
+| Social Security Numbers | `XXX-XX-XXXX` |
+| Generic API keys & tokens | Pattern matched |
+| Passwords in code | Pattern matched |
+
+If a secret is detected — it is **redacted in the request** and flagged in your audit log. The AI never sees it.
+
+---
+
+## Check Your Audit Log
+
 ```bash
 cat sentinel.log
 ```
 
-## Roadmap
+Every request and response is permanently logged with timestamp, provider, token count, and any secrets detected.
 
-- [x] DLP engine — catches and redacts secrets
-- [x] Permanent audit log
-- [x] Multi-provider support (Anthropic, OpenAI, Groq)
-- [x] Works with Claude Code and Cursor BYOK
-- [ ]  One command install: pip install sentinel-gateway
-- [ ] Automatic interception for Cursor Auto Mode
-- [ ] Live dashboard — see what your AI tools transmit in real time
-- [ ] One-command install script
-- [ ] Team mode — shared audit log for small teams
+---
 
-## Status
+## Architecture
 
-Early stage. Working and tested. Built to solve a real problem — most developers have zero visibility into what their AI tools actually transmit.
+```
+Your Agent
+    ↓
+[ Sentinel — running locally ]
+    ↓ intercepts here
+    • scans for secrets → redacts
+    • logs request + response
+    • measures tokens + cost
+    ↓
+AI Provider (Anthropic / OpenAI / Groq)
+```
 
-Currently supports manual API routing—point your API calls to localhost:8080 instead of calling providers directly. Automatic interception for Cursor and Claude Code without configuration changes is on the roadmap.
+The proxy intercepts every outbound HTTP request. Your data never touches Sentinel's servers — because there are no Sentinel servers.
+
+---
 
 ## License
 
