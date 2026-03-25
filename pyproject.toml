@@ -1,10 +1,10 @@
 [build-system]
 requires = ["setuptools>=61.0"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "sentinel-gateway"
-version = "0.1.0"
+version = "0.1.1"
 description = "Local AI security gateway. Intercepts AI traffic, blocks secrets before they leave your machine."
 readme = "README.md"
 license = { file = "LICENSE.md" }
