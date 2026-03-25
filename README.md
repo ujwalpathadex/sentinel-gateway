@@ -20,6 +20,10 @@ Other monitoring tools fix this by routing your traffic through *their* servers.
 Sentinel intercepts at the source — on your machine, before anything leaves.  
 Nothing routes through external servers. Ever.
 
+## See It In Action
+
+![Sentinel redacting an AWS key](sentinel-demo.png)
+
 ---
 
 ## Who This Is For
