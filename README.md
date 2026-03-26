@@ -24,9 +24,10 @@ Nothing routes through external servers. Ever.
  
 ## See It In Action
  
-![Sentinel Dashboard](sentinel-demo.png)
+![Sentinel Live Dashboard](sentinel-demo.png)
  
-That red row is a caught AWS key — blocked before it reached Anthropic.
+**3 requests intercepted. 1 secret caught. 1 blocked.**  
+That red row is a live AWS key inside a prompt — intercepted and blocked before it reached Anthropic. The prompt preview shows exactly what your agent was about to send.
  
 ---
  
