@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: sentinel-gateway
-Version: 0.1.1
+Version: 0.2.0
 Summary: Local AI security gateway. Intercepts AI traffic, blocks secrets before they leave your machine.
 License: Functional Source License, Version 1.1, MIT Future License
         
