@@ -11,4 +11,5 @@ license = { file = "LICENSE.md" }
 requires-python = ">=3.8"
 
 [project.scripts]
-sentinel = "sentinel.cli:main"
+sentinel = "sentinel.cli:sentinel"
+sentinel-dashboard = "sentinel.cli:dashboard"

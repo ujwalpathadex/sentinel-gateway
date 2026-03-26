@@ -1,2 +1,3 @@
 [console_scripts]
-sentinel = sentinel.cli:main
+sentinel = sentinel.cli:sentinel
+sentinel-dashboard = sentinel.cli:dashboard

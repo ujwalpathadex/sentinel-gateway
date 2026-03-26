@@ -3,6 +3,7 @@ README.md
 pyproject.toml
 sentinel/__init__.py
 sentinel/cli.py
+sentinel/dashboard.py
 sentinel/gateway.py
 sentinel_gateway.egg-info/PKG-INFO
 sentinel_gateway.egg-info/SOURCES.txt
