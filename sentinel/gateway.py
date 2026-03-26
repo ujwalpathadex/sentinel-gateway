@@ -66,7 +66,7 @@ def log_request(model: str, prompt_text: str, input_tokens: int,
 # ────────────────────────────────────────────────────────────────────────────
 
 # --- LOGGING ENGINE (keep for terminal output) ---
-LOG_FILE = "sentinel.log"
+LOG_FILE = str(Path.home() / ".sentinel" / "sentinel.log")
 
 class ImmediateFileHandler(logging.FileHandler):
     def emit(self, record):
