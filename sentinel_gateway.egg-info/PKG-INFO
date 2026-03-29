@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: sentinel-gateway
-Version: 0.2.0
+Version: 0.2.1
 Summary: Local AI security gateway. Intercepts AI traffic, blocks secrets before they leave your machine.
 License: Functional Source License, Version 1.1, MIT Future License
         
@@ -62,6 +62,11 @@ License: Functional Source License, Version 1.1, MIT Future License
 Requires-Python: >=3.8
 Description-Content-Type: text/markdown
 License-File: LICENSE.md
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+Requires-Dist: httpx
+Requires-Dist: python-dotenv
+Requires-Dist: rich>=13.0.0
 Dynamic: license-file
 
 # Sentinel Gateway

@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+httpx
+python-dotenv
+rich>=13.0.0

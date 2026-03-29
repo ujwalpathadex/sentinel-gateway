@@ -9,4 +9,5 @@ sentinel_gateway.egg-info/PKG-INFO
 sentinel_gateway.egg-info/SOURCES.txt
 sentinel_gateway.egg-info/dependency_links.txt
 sentinel_gateway.egg-info/entry_points.txt
+sentinel_gateway.egg-info/requires.txt
 sentinel_gateway.egg-info/top_level.txt

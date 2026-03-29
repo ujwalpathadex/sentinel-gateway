@@ -165,21 +165,37 @@ async def forward(provider: str, path: str, request: Request):
 
     # ── CHANGE 2: Parse model + tokens from request/response, then log ──────
     try:
-        req_json  = json.loads(text)
-        model     = req_json.get("model", "unknown")
-        messages  = req_json.get("messages", [])
-        prompt    = " ".join(
+        req_json = json.loads(text)
+        model    = req_json.get("model", "unknown")
+        messages = req_json.get("messages", [])
+        prompt   = " ".join(
             m.get("content", "") for m in messages
             if isinstance(m.get("content"), str)
         )
-        # Try to get real token counts from response
-        resp_json    = json.loads(response.content)
-        usage        = resp_json.get("usage", {})
-        input_tokens  = usage.get("input_tokens",  len(prompt.split()))
-        output_tokens = usage.get("output_tokens", 0)
+        if not prompt:
+            prompt = text[:120]
+        # Support both Anthropic format and OpenAI/Groq format
+        resp_json     = json.loads(response.content)
+        usage         = resp_json.get("usage", {})
+        input_tokens  = (usage.get("input_tokens")
+                         or usage.get("prompt_tokens")
+                         or len(prompt.split()))
+        output_tokens = (usage.get("output_tokens")
+                         or usage.get("completion_tokens")
+                         or 0)
     except Exception:
-        model, prompt, input_tokens, output_tokens = "unknown", text[:120], 0, 0
-
+        try:
+            req_json = json.loads(text)
+            model    = req_json.get("model", "unknown")
+            messages = req_json.get("messages", [])
+            prompt   = " ".join(
+                m.get("content", "") for m in messages
+                if isinstance(m.get("content"), str)
+            ) or text[:120]
+        except Exception:
+            model, prompt = "unknown", text[:120]
+        input_tokens, output_tokens = 0, 0
+        
     log_request(
         model=model,
         prompt_text=prompt,

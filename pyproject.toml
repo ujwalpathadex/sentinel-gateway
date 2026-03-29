@@ -4,11 +4,18 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sentinel-gateway"
-version = "0.2.0"
+version = "0.2.1"
 description = "Local AI security gateway. Intercepts AI traffic, blocks secrets before they leave your machine."
 readme = "README.md"
 license = { file = "LICENSE.md" }
 requires-python = ">=3.8"
+dependencies = [
+  "fastapi",
+  "uvicorn",
+  "httpx",
+  "python-dotenv",
+  "rich>=13.0.0"
+]
 
 [project.scripts]
 sentinel = "sentinel.cli:sentinel"
